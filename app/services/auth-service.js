@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt')
-const { appKey, tokenExpiresIn } = require('../../config/app')
-const jwt = require('jsonwebtoken')
+const Tokenizer = require('../modules/tokenizer')
 
 class AuthService {
 
@@ -8,8 +7,12 @@ class AuthService {
         return await bcrypt.compare(attempted, original)
     }
 
-    async generateToken(payload) {
-        return jwt.sign(payload, appKey, { expiresIn: tokenExpiresIn })
+    async generateTokens(payload) {
+        // return jwt.sign(payload, appKey, { expiresIn: tokenExpiresIn })
+        return {
+            accessToken: Tokenizer.generateAccessToken(payload),
+            refreshToken: Tokenizer.generateRefreshToken()
+        }
     }
 
 }
