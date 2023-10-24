@@ -2,6 +2,8 @@ const express = require('express')
 const webRoutes = require('./web')
 const apiRoutes = require('./api')
 const logger = require('../app/modules/logger')
+const appConfig = require('../config/app')
+const BaseException = require('../app/exceptions/base-exception')
 
 class Router {
     constructor() {
@@ -11,20 +13,11 @@ class Router {
     }
 
     create(app) {
-        // TODO attach middleware
         this._attachMiddleware()
-
-        // TODO attach routes
         this._attachWebRoutes()
         this._attachApiRoutes()
-
-        // TODO handle 404 pages
         this._handlePageNotFound()
-
-        // TODO handle exceptions
         this._handleExceptions()
-
-        // TODO register router
 
         app.use(this.router)
     }
@@ -34,7 +27,28 @@ class Router {
             err.statusCode = err.status || err.statusCode || 500
             logger.error(err)
 
-            return res.status(err.statusCode).send(err.message)
+            const expectJson = /application\/json/.test(req.get('accept'))
+
+            if (appConfig.appEnv === 'production' && !(err instanceof BaseException)) {
+                if (expectJson) {
+                    return res.status(err.statusCode).send(errorResponse(err.statusCode, 'Something went wrong!'))
+                }
+
+                const page = getErrorPage(err.statusCode)
+
+                return res.render(`errors/${page}-page`, { message: 'Someting went wrong!' })
+            }
+
+            if (expectJson) {
+                return res.status(err.statusCode).send({
+                    message: err.message,
+                    status: err.statusCode
+                })
+            }
+
+            const page = getErrorPage(err.statusCode)
+
+            res.render(`errors/${page}-page`, { message: err.message || 'Something went wrong!' })
         })
     }
 
@@ -72,6 +86,37 @@ class Router {
             })
         })
     }
+}
+
+const errorResponse = (status, message) => {
+    return {
+        message,
+        status
+    }
+}
+
+const getErrorPage = status => {
+    let page = ''
+
+    switch (status) {
+        case 404:
+            page = 404
+            break
+        case 422:
+            page = 400
+            break
+        case 403:
+            page = 400
+            break
+        case 401:
+            page = 400
+            break
+        default:
+            page = 500
+            break
+    }
+
+    return page
 }
 
 module.exports = new Router()

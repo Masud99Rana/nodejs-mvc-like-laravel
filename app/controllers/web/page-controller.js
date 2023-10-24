@@ -3,7 +3,7 @@ const logger = require('../../modules/logger')
 class PageController {
 
     async home(req, res) {
-        // throw new Error('An error happened')
+        throw new Error('An error happened')
 
         logger.info('Info message')
         // res.send('Home page. Controller.')
