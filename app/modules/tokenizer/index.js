@@ -11,7 +11,12 @@ class Tokenizer {
         return jwt.sign(user, this.config.appKey, { expiresIn: this.config.tokenExpiresIn })
     }
 
+
     generateRefreshToken(length = 40) {
+        return this.generateRandomToken(length)
+    }
+
+    generateRandomToken(length = 40) {
         return crypto.randomBytes(length).toString('hex')
     }
 }
