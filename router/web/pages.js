@@ -2,7 +2,7 @@ const PageController = require('../../app/controllers/web/page-controller')
 
 module.exports = {
     group: {
-        prefix: '/pages'
+        prefix: '/'
     },
     routes: [
         {
@@ -12,12 +12,12 @@ module.exports = {
         },
         {
             method: 'get',
-            path: '/about',
+            path: 'about',
             handler: PageController.about
         },
         {
             method: 'get',
-            path: '/contact',
+            path: 'contact',
             handler: PageController.contact
         },
     ]

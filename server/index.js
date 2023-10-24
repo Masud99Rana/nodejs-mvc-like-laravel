@@ -1,5 +1,6 @@
 const express = require('express')
 const Router = require('../router')
+const hbs = require('express-handlebars')
 
 class Server {
     constructor(port) {
@@ -9,20 +10,22 @@ class Server {
     }
 
     start() {
+        this._setViewEngine()
         this._setupRoutes()
         this._listen()
     }
 
+    _setViewEngine() {
+        this.app.set('view engine', 'hbs')
+
+        this.app.engine('hbs', hbs.engine({
+            extname: '.hbs'
+        }));
+
+    }
+
     _setupRoutes() {
         this.router.create(this.app)
-
-        // this.app.get('/', (req, res) => {
-        //     res.send('Home page. For real?')
-        // })
-
-        // this.app.get('/products', (req, res) => {
-        //     res.send('Products page')
-        // })
     }
 
     _listen() {

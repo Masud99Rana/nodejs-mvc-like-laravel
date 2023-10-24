@@ -1,17 +1,18 @@
 class PageController {
 
-    home(req, res) {
-        throw new Error('An error happened')
+    async home(req, res) {
+        // throw new Error('An error happened')
 
-        res.send('Home page. Controller.')
+        // res.send('Home page. Controller.')
+        res.render('home')
     }
 
-    about(req, res) {
-        res.send('About page.')
+    async about(req, res) {
+        res.render('about')
     }
 
-    contact(req, res) {
-        res.send('Contact page.')
+    async contact(req, res) {
+        res.render('contact')
     }
 
 }
