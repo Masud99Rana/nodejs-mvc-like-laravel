@@ -1,4 +1,6 @@
 const AuthController = require('../../app/controllers/api/auth-controller')
+const { validate } = require('../../app/middleware/validate')
+const ValidationRules = require('../../app/validators/auth')
 
 module.exports = {
     group: {
@@ -8,11 +10,13 @@ module.exports = {
         {
             method: 'post',
             path: '/login',
+            middleware: [ValidationRules.login, validate],
             handler: AuthController.login
         },
         {
             method: 'post',
             path: '/register',
+            middleware: [ValidationRules.register, validate],
             handler: AuthController.register
         }
     ]
