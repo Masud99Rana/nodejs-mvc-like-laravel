@@ -34,15 +34,6 @@ DB_DIALECT=postgres
 
 View  + Mail
 ==============
-==============
-
-express-handlebars
-
-nodemailer
-
-nodemailer-express-handlebars
-
-
 
 npm i express-handlebars nodemailer nodemailer-express-handlebars
 
@@ -50,12 +41,16 @@ npm i express-handlebars nodemailer nodemailer-express-handlebars
 
 CRON ( Creating scheduler )
 ============================
-============================
 
 https://crontab.guru/#0_0_1,15_*_3
-    
-    "node-cron": "^3.0.2",
 
+node-cron
+
+
+
+Logger
+===================
+npm i winston winston-daily-rotate-file
 
 
 
