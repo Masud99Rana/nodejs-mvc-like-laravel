@@ -1,6 +1,7 @@
 const express = require('express')
 const Router = require('../router')
 const hbs = require('express-handlebars')
+const Scheduler = require('../app/scheduler')
 
 class Server {
     constructor(port) {
@@ -12,16 +13,20 @@ class Server {
     start() {
         this._setViewEngine()
         this._setupRoutes()
+        this._startScheduler()
         this._listen()
     }
 
+    _startScheduler() {
+        Scheduler.runTasks()
+    }
+
     _setViewEngine() {
-        this.app.set('view engine', 'hbs')
-
-        this.app.engine('hbs', hbs.engine({
+        this.app.engine('hbs', hbs({
             extname: '.hbs'
-        }));
+        }))
 
+        this.app.set('view engine', 'hbs')
     }
 
     _setupRoutes() {
