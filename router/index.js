@@ -4,6 +4,7 @@ const apiRoutes = require('./api')
 const logger = require('../app/modules/logger')
 const appConfig = require('../config/app')
 const BaseException = require('../app/exceptions/base-exception')
+const path = require('path')
 
 class Router {
     constructor() {
@@ -60,6 +61,7 @@ class Router {
 
     _attachMiddleware() {
         this.router.use(express.json())
+        this.router.use(express.static(path.join(__dirname, '../public')))
     }
 
     _handlePageNotFound() {

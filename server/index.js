@@ -22,7 +22,7 @@ class Server {
     }
 
     _setViewEngine() {
-        this.app.engine('hbs', hbs({
+        this.app.engine('hbs', hbs.engine({
             extname: '.hbs'
         }))
 
