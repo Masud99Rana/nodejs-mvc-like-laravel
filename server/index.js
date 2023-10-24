@@ -1,9 +1,11 @@
 const express = require('express')
+const Router = require('../router')
 
 class Server {
     constructor(port) {
         this.port = port
         this.app = express()
+        this.router = Router
     }
 
     start() {
@@ -12,13 +14,15 @@ class Server {
     }
 
     _setupRoutes() {
-        this.app.get('/', (req, res) => {
-            res.send('Home page. For real?')
-        })
+        this.router.create(this.app)
 
-        this.app.get('/products', (req, res) => {
-            res.send('Products page')
-        })
+        // this.app.get('/', (req, res) => {
+        //     res.send('Home page. For real?')
+        // })
+
+        // this.app.get('/products', (req, res) => {
+        //     res.send('Products page')
+        // })
     }
 
     _listen() {
